@@ -39,12 +39,11 @@ nada é publicado automaticamente por este repositório.
 
 ## Notas
 
-- O repositório do projeto `radar-cfm-mcp` existe, mas é privado. Os links de
-  GitHub vão falhar para visitantes sem acesso até ele ser tornado público.
+- O repositório do projeto `radar-cfm-mcp` é público, então os links de GitHub funcionam.
 - Os valores nos exemplos de retorno são ilustrativos; os campos são os do
   projeto (schema `ResolucaoCFM`). Toda resposta real traz a URL de origem.
 - Não é fonte oficial do CFM e não substitui a leitura da resolução original.
 
 ## Licença
 
-MIT.
+Apache-2.0.
