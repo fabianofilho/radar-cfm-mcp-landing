@@ -1,10 +1,10 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 
-// Destino: https://mcp.iamed.cc/radar-cfm
+// Destino: https://iamed.cc/mcps/radar-cfm
 export default defineConfig({
-  site: "https://mcp.iamed.cc",
-  base: "/radar-cfm",
+  site: "https://iamed.cc",
+  base: "/mcps/radar-cfm",
   output: "static",
   integrations: [tailwind()],
 });
