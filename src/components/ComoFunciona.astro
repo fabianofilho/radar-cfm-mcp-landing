@@ -1,0 +1,60 @@
+---
+const camadas = [
+  {
+    n: "01",
+    titulo: "Crawler",
+    texto: "Varre o portal de normas do CFM com intervalo entre requisições. Um mesmo PDF nunca é baixado duas vezes, e só é baixado quando a ementa casa com um tema.",
+  },
+  {
+    n: "02",
+    titulo: "Extração",
+    texto: "Converte PDF e HTML em texto e metadados: número, ano, ementa, data e o sinal de vigência.",
+  },
+  {
+    n: "03",
+    titulo: "Armazenamento",
+    texto: "Guarda tudo localmente em DuckDB, com busca textual (FTS/BM25) e queda para LIKE quando o índice não está disponível.",
+  },
+  {
+    n: "04",
+    titulo: "Ferramentas MCP",
+    texto: "Expõe a consulta por tema e o monitoramento de novas resoluções como tools, que o modelo local chama.",
+  },
+];
+---
+
+<section id="como-funciona" class="border-b border-neutral-900">
+  <div class="mx-auto max-w-4xl px-6 py-20">
+    <p class="text-sm font-semibold uppercase tracking-wider text-emerald">Como funciona</p>
+    <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">
+      Do portal do conselho ao agente, em quatro camadas
+    </h2>
+
+    <ol class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        camadas.map((c, i) => (
+          <li class="relative rounded-xl border border-neutral-800 bg-ink-800 p-5">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-sm font-bold text-emerald">{c.n}</span>
+              <span class="hidden text-neutral-700 lg:inline-block" aria-hidden="true">
+                {i < 3 ? "→" : ""}
+              </span>
+            </div>
+            <h3 class="mt-3 text-base font-semibold text-white">{c.titulo}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-neutral-400">{c.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-8 flex gap-3 rounded-xl border border-neutral-800 bg-ink-800 p-4">
+      <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+      </svg>
+      <p class="text-sm leading-relaxed text-neutral-300">
+        Toda resposta inclui a ementa e o link do PDF oficial. Um trecho extraído
+        é ponto de partida para a leitura, não uma citação normativa.
+      </p>
+    </div>
+  </div>
+</section>

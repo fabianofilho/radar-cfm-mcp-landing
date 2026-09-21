@@ -1,0 +1,37 @@
+---
+const pontos = [
+  {
+    titulo: "Espalhado em PDFs, sem dado aberto",
+    texto:
+      "As resoluções do CFM sobre IA, telemedicina e prontuário eletrônico ficam no portal de normas do conselho, sem API nem dado aberto estruturado. Cruzar tema, vigência e número dá trabalho manual.",
+  },
+  {
+    titulo: "Saber o que está vigente exige leitura",
+    texto:
+      "Uma resolução pode ter sido revogada ou substituída por outra. Descobrir o que ainda vale hoje significa abrir e comparar documentos um a um.",
+  },
+  {
+    titulo: "Um agente local não alcança isso sozinho",
+    texto:
+      "Um modelo de linguagem rodando na sua máquina não consegue consultar o portal e filtrar por tema. Falta a camada que exponha essa busca como ferramenta.",
+  },
+];
+---
+
+<section id="problema" class="border-b border-neutral-900">
+  <div class="mx-auto max-w-4xl px-6 py-20">
+    <p class="text-sm font-semibold uppercase tracking-wider text-emerald">O problema</p>
+    <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">Por que este projeto existe</h2>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-3">
+      {
+        pontos.map((p) => (
+          <div class="rounded-xl border border-neutral-800 bg-ink-800 p-5">
+            <h3 class="text-base font-semibold text-white">{p.titulo}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-neutral-400">{p.texto}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

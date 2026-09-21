@@ -1,0 +1,79 @@
+---
+import CodeBlock from "./CodeBlock.astro";
+
+const consultarSig = `consultar_resolucao_cfm(tema: str, apenas_vigentes: bool = True)`;
+
+const consultarRetorno = `{
+  "tema": "telemedicina",
+  "total": 3,
+  "resultados": [
+    {
+      "identificador": "2314/2022",
+      "numero": "2314",
+      "ano": "2022",
+      "data_publicacao": "2022-05-05",
+      "ementa": "Define e disciplina a telemedicina...",
+      "trecho_relevante": "...exercida por médico inscrito no CRM...",
+      "vigente": true,
+      "revogada_por": null,
+      "url_origem": "https://portal.cfm.org.br/buscar-normas-cfm-e-crm",
+      "url_pdf": "https://sistemas.cfm.org.br/normas/arquivos/resolucoes/BR/2022/2314_2022.pdf",
+      "texto_completo_disponivel": true
+    }
+  ],
+  "aviso": "Confira a URL de origem antes de tratar um trecho como a posição do CFM."
+}`;
+
+const monitorarSig = `monitorar_novas_resolucoes(dias: int = 30, filtrar_tema: bool = True)`;
+
+const monitorarRetorno = `{
+  "dias": 30,
+  "total": 1,
+  "resultados": [
+    {
+      "identificador": "2381/2024",
+      "vigente": true,
+      "revogada_por": null,
+      "url_pdf": "https://sistemas.cfm.org.br/normas/arquivos/resolucoes/BR/2024/2381_2024.pdf"
+    }
+  ]
+}`;
+---
+
+<section id="tools" class="border-b border-neutral-900">
+  <div class="mx-auto max-w-4xl px-6 py-20">
+    <p class="text-sm font-semibold uppercase tracking-wider text-emerald">As ferramentas</p>
+    <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">Duas tools MCP expostas ao modelo</h2>
+    <p class="mt-3 max-w-2xl text-neutral-400">
+      O modelo chama estas funções durante a conversa. Cada resultado sempre traz
+      a URL de origem para conferência. Os retornos abaixo mostram o formato; os
+      campos são os do projeto.
+    </p>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-2">
+      <article class="flex flex-col gap-4 rounded-xl border border-neutral-800 bg-ink-800 p-5">
+        <div>
+          <h3 class="font-mono text-base font-semibold text-emerald">consultar_resolucao_cfm</h3>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+            Resoluções relacionadas ao tema, mais relevantes primeiro. Revogadas
+            vêm com <span class="font-mono text-neutral-300">vigente: false</span> e a que as substituiu.
+          </p>
+        </div>
+        <CodeBlock code={consultarSig} lang="python" />
+        <CodeBlock code={consultarRetorno} lang="json" caption="Exemplo do formato de retorno" />
+      </article>
+
+      <article class="flex flex-col gap-4 rounded-xl border border-neutral-800 bg-ink-800 p-5">
+        <div>
+          <h3 class="font-mono text-base font-semibold text-emerald">monitorar_novas_resolucoes</h3>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+            O que foi publicado na janela de dias, filtrado pelos temas
+            configurados (IA, telemedicina, prontuário).
+          </p>
+        </div>
+        <CodeBlock code={monitorarSig} lang="python" />
+        <CodeBlock code={monitorarRetorno} lang="json" caption="Exemplo do formato de retorno (campos abreviados)" />
+      </article>
+    </div>
+  </div>
+</section>
