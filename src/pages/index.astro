@@ -5,12 +5,13 @@ import Disclaimer from "../components/Disclaimer.astro";
 import Problema from "../components/Problema.astro";
 import ComoFunciona from "../components/ComoFunciona.astro";
 import Tools from "../components/Tools.astro";
+import Modos from "../components/Modos.astro";
 import ComoRodar from "../components/ComoRodar.astro";
 import Footer from "../components/Footer.astro";
 
-const title = "radar-cfm-mcp: resoluções do CFM sobre IA para agentes locais";
+const title = "radar-cfm-mcp: resoluções do CFM sobre IA para agentes";
 const description =
-  "Servidor MCP open source para consultar e monitorar resoluções do CFM sobre inteligência artificial, telemedicina e prontuário eletrônico, conectável a modelos de linguagem locais. Um projeto IA.med.";
+  "Servidor MCP open source para consultar e monitorar resoluções do CFM sobre inteligência artificial, telemedicina e prontuário eletrônico, para um LLM local ou como conector do Claude. Um projeto IA.med.";
 ---
 
 <Layout title={title} description={description}>
@@ -20,6 +21,7 @@ const description =
     <Problema />
     <ComoFunciona />
     <Tools />
+    <Modos />
     <ComoRodar />
   </main>
   <Footer />

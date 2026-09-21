@@ -1,0 +1,43 @@
+---
+import CodeBlock from "./CodeBlock.astro";
+
+const connector = `# expor como conector HTTP (o Claude chama pela rede)
+TRANSPORTE=streamable-http HTTP_HOST=0.0.0.0 HTTP_PORTA=8000 uv run radar-cfm-mcp`;
+---
+
+<section id="modos" class="border-b border-neutral-900">
+  <div class="mx-auto max-w-4xl px-6 py-20">
+    <p class="text-sm font-semibold uppercase tracking-wider text-emerald">Dois modos</p>
+    <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">
+      Local, ou como conector do Claude
+    </h2>
+    <p class="mt-3 max-w-2xl text-neutral-400">
+      O mesmo servidor fala nos dois transportes. Toda resposta continua trazendo o
+      link do PDF oficial, nos dois casos.
+    </p>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-2 lg:items-start">
+      <article class="rounded-xl border border-neutral-800 bg-ink-800 p-5">
+        <h3 class="font-mono text-base font-semibold text-emerald">stdio (local)</h3>
+        <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+          O padrão. O cliente sobe o processo na máquina de quem usa, do jeito dos
+          comandos acima. Nada precisa ficar exposto na rede.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4 rounded-xl border border-neutral-800 bg-ink-800 p-5">
+        <div>
+          <h3 class="font-mono text-base font-semibold text-emerald">streamable-http (conector)</h3>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+            Vira um endpoint HTTP alcançável pela rede, que o Claude aceita como
+            custom connector. Uma instância varre o portal e todos consultam a mesma
+            base. O tráfego do Claude chega dos IPs da Anthropic, então há um teto
+            global e um por origem; para um portal de conselho, o conector é a opção
+            mais respeitosa.
+          </p>
+        </div>
+        <CodeBlock code={connector} lang="bash" />
+      </article>
+    </div>
+  </div>
+</section>
