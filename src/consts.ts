@@ -5,6 +5,9 @@ export const GITHUB_URL = "https://github.com/fabianofilho/radar-cfm-mcp";
 export const IAMED_URL = "https://iamed.cc";
 export const LICENSE = "Apache-2.0";
 
+// Conector hospedado oficial (Tailscale Funnel, sem garantia de uptime).
+export const CONNECTOR_URL = "https://mcp.tailf42a96.ts.net/cfm/mcp";
+
 // Familia de MCPs open source da IA.med. SELF_SLUG marca o atual (some do rodape).
 export const SELF_SLUG = "radar-cfm";
 export const FAMILY = [

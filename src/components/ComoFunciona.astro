@@ -3,12 +3,12 @@ const camadas = [
   {
     n: "01",
     titulo: "Crawler",
-    texto: "Varre o portal de normas do CFM com intervalo entre requisições. Um mesmo PDF nunca é baixado duas vezes, e só é baixado quando a ementa casa com um tema.",
+    texto: "Varre o portal de normas do CFM com intervalo entre requisições. Um mesmo PDF nunca é baixado duas vezes. Por padrão, só é baixado quando a ementa casa com um tema; com --texto-integral, baixa todos (a instância hospedada roda assim).",
   },
   {
     n: "02",
     titulo: "Extração",
-    texto: "Converte PDF e HTML em texto e metadados: número, ano, ementa, data e o sinal de vigência.",
+    texto: "Converte PDF e HTML em texto e metadados: número, ano, ementa, data de publicação (lida do cabeçalho do texto) e os sinais de revogação e suspensão.",
   },
   {
     n: "03",
@@ -18,7 +18,7 @@ const camadas = [
   {
     n: "04",
     titulo: "Ferramentas MCP",
-    texto: "Expõe a consulta por tema e o monitoramento de novas resoluções como tools, que o modelo local chama.",
+    texto: "Expõe a consulta por tema e o monitoramento de novas resoluções como tools, que o modelo chama pelo cliente MCP.",
   },
 ];
 ---
