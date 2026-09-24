@@ -1,39 +1,91 @@
 ---
 import CodeBlock from "./CodeBlock.astro";
+import { CONNECTOR_URL } from "../consts";
 
-const connector = `# expor como conector HTTP (o Claude chama pela rede)
-TRANSPORTE=streamable-http HTTP_HOST=0.0.0.0 HTTP_PORTA=8000 uv run radar-cfm-mcp`;
+const claudeCode = `claude mcp add --transport http radar-cfm ${CONNECTOR_URL}`;
+
+const avisos = [
+  {
+    titulo: "Dados públicos do CFM",
+    texto: "A base é uma cópia do que o portal de normas publica, atualizada uma vez por dia de madrugada. Não é fonte oficial.",
+  },
+  {
+    titulo: "Sem garantia de disponibilidade",
+    texto: "Roda numa máquina pessoal exposta pelo Tailscale Funnel. Pode ficar fora do ar, mudar de endereço ou ser desligado sem aviso. Se você depende dele, rode o seu.",
+  },
+  {
+    titulo: "Sem autenticação, com limites",
+    texto: "Qualquer pessoa pode chamar. Há teto de 600 requisições por minuto por origem e 1.200 no total, e teto nos parâmetros (limite até 100, dias até 3.650). Acima disso a chamada é recusada.",
+  },
+  {
+    titulo: "O que você consulta passa por lá",
+    texto: "Os parâmetros de cada chamada (tema, dias, limite) chegam ao servidor do autor. O código não registra os temas; só o IP de origem quando uma chamada é recusada por limite.",
+  },
+];
+
+const connector = `# expor a sua própria instância como conector HTTP
+TRANSPORTE=streamable-http HTTP_HOST=127.0.0.1 HTTP_PORTA=8000 uv run radar-cfm-mcp
+
+# atrás de túnel ou proxy, declare o nome público (senão responde 421)
+HTTP_HOSTS_PUBLICOS=mcp.exemplo.ts.net`;
 ---
 
 <section id="modos" class="border-b border-neutral-900">
   <div class="mx-auto max-w-4xl px-6 py-20">
-    <p class="text-sm font-semibold uppercase tracking-wider text-emerald">Dois modos</p>
+    <p class="text-sm font-semibold uppercase tracking-wider text-emerald">Dois jeitos de usar</p>
     <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">
-      Local, ou como conector do Claude
+      Pelo conector hospedado, ou na sua máquina
     </h2>
     <p class="mt-3 max-w-2xl text-neutral-400">
-      O mesmo servidor fala nos dois transportes. Toda resposta continua trazendo o
-      link do PDF oficial, nos dois casos.
+      O mesmo servidor fala stdio (local) e streamable-http (conector). Toda resposta
+      traz o link do PDF oficial, nos dois casos.
     </p>
 
-    <div class="mt-10 grid gap-6 lg:grid-cols-2 lg:items-start">
+    <article id="conector" class="mt-10 rounded-xl border border-emerald/25 bg-ink-800 p-5">
+      <h3 class="font-mono text-base font-semibold text-emerald">Conector hospedado</h3>
+      <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+        Há uma instância pública, mantida pelo autor, para usar sem instalar nada. No
+        Claude (web ou desktop): Configurações, Conectores, adicionar conector
+        personalizado, e colar a URL abaixo.
+      </p>
+      <div class="mt-4 flex flex-col gap-4">
+        <CodeBlock code={CONNECTOR_URL} lang="text" caption="URL do conector" />
+        <CodeBlock code={claudeCode} lang="bash" caption="No Claude Code" />
+      </div>
+
+      <div class="mt-6 rounded-xl border border-amber-500/25 bg-amber-500/[0.04] p-4">
+        <p class="text-sm font-semibold uppercase tracking-wider text-amber-300">Antes de usar o conector</p>
+        <ul class="mt-3 grid gap-3 sm:grid-cols-2">
+          {
+            avisos.map((a) => (
+              <li class="text-sm leading-relaxed text-neutral-300">
+                <span class="block font-semibold text-white">{a.titulo}</span>
+                <span>{a.texto}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </article>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-2 lg:items-start">
       <article class="rounded-xl border border-neutral-800 bg-ink-800 p-5">
         <h3 class="font-mono text-base font-semibold text-emerald">stdio (local)</h3>
         <p class="mt-2 text-sm leading-relaxed text-neutral-400">
-          O padrão. O cliente sobe o processo na máquina de quem usa, do jeito dos
-          comandos acima. Nada precisa ficar exposto na rede.
+          O cliente sobe o processo na sua máquina, contra a sua cópia da base (passo a
+          passo abaixo). Nada fica exposto na rede, e os temas consultados não saem do
+          seu computador.
         </p>
       </article>
 
       <article class="flex flex-col gap-4 rounded-xl border border-neutral-800 bg-ink-800 p-5">
         <div>
-          <h3 class="font-mono text-base font-semibold text-emerald">streamable-http (conector)</h3>
+          <h3 class="font-mono text-base font-semibold text-emerald">streamable-http (o seu conector)</h3>
           <p class="mt-2 text-sm leading-relaxed text-neutral-400">
-            Vira um endpoint HTTP alcançável pela rede, que o Claude aceita como
-            custom connector. Uma instância varre o portal e todos consultam a mesma
-            base. O tráfego do Claude chega dos IPs da Anthropic, então há um teto
-            global e um por origem; para um portal de conselho, o conector é a opção
-            mais respeitosa.
+            Para hospedar a sua instância. O tráfego do Claude chega dos IPs da
+            Anthropic, então há um teto global e um por origem. Uma instância varre o
+            portal e todos consultam a mesma base: para um portal de conselho, é a
+            opção mais respeitosa.
           </p>
         </div>
         <CodeBlock code={connector} lang="bash" />

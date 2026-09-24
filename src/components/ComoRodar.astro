@@ -6,31 +6,51 @@ const passos = `# 1. clonar o repositório
 git clone ${GITHUB_URL}.git
 cd radar-cfm-mcp
 
-# 2. instalar as dependências
+# 2. instalar as dependências (Python 3.12+ e uv)
 uv sync
 
 # 3. configurar o ambiente
 cp .env.example .env
 
-# 4. rodar o crawl inicial
+# 4. rodar a coleta inicial
 uv run cfm-cli sync --max-paginas 3   # teste rápido
 uv run cfm-cli sync                    # varredura completa (~8 min)
 
 # 5. subir o servidor MCP (stdio) e conectar ao seu cliente
 uv run radar-cfm-mcp`;
+
+const claudeCode = `claude mcp add radar-cfm --scope user \\
+  -e DUCKDB_PATH=/caminho/para/radar-cfm-mcp/data/cfm.duckdb \\
+  -- uv --directory /caminho/para/radar-cfm-mcp run radar-cfm-mcp`;
+
+const cli = `# baixa o PDF de todas as resoluções, não só das que tocam no tema
+uv run cfm-cli sync --texto-integral --max-pdfs 0
+
+# constrói a base ao lado e troca no fim (quando há um servidor HTTP lendo)
+uv run cfm-cli sync --publicar --texto-integral --max-pdfs 25
+
+# refaz as datas de publicação a partir do texto já gravado, sem tocar no portal
+uv run cfm-cli reextrair-datas [--publicar]`;
 ---
 
 <section id="como-rodar" class="border-b border-neutral-900">
   <div class="mx-auto max-w-4xl px-6 py-20">
     <p class="text-sm font-semibold uppercase tracking-wider text-emerald">Como rodar</p>
-    <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">Roda na sua máquina</h2>
+    <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">Na sua máquina</h2>
     <p class="mt-3 max-w-2xl text-neutral-400">
-      Não é um serviço hospedado. Você clona o repositório, sincroniza a base a
-      partir do portal do CFM e o servidor MCP roda ali, no seu computador.
+      Além do <a href="#conector" class="text-emerald hover:underline">conector hospedado</a>,
+      você pode rodar a sua instância: clona o repositório, sincroniza a base a partir
+      do portal do CFM e o servidor MCP roda ali, no seu computador. O projeto não usa LLM:
+      a busca é full-text sobre a base local.
     </p>
 
     <div class="mt-8">
       <CodeBlock code={passos} lang="bash" caption="Confira os comandos e opções no README do projeto." />
+    </div>
+
+    <div class="mt-6 grid gap-6">
+      <CodeBlock code={claudeCode} lang="bash" caption="Ligando a instância local ao Claude Code" />
+      <CodeBlock code={cli} lang="bash" caption="Outras opções do cfm-cli" />
     </div>
 
     <div class="mt-6 flex gap-3 rounded-xl border border-emerald/25 bg-emerald/5 p-4">
@@ -39,9 +59,10 @@ uv run radar-cfm-mcp`;
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
       </svg>
       <p class="text-sm leading-relaxed text-neutral-300">
-        O crawler respeita o portal (intervalo entre requisições, cache e download
-        só quando o tema casa). No modo local nada sai da sua máquina; no modo
-        conector, uma instância varre o portal e serve a mesma base a todos.
+        O crawler respeita o portal: intervalo entre requisições, cache por PDF e, por
+        padrão, download só quando a ementa casa com um tema. No modo local, os temas
+        consultados não saem da sua máquina; só o sync fala com o portal do CFM. No
+        conector hospedado, os parâmetros de cada chamada passam pelo servidor do autor.
       </p>
     </div>
   </div>
