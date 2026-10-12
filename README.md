@@ -3,8 +3,8 @@
 Landing page do [`radar-cfm-mcp`](https://github.com/fabianofilho/radar-cfm-mcp),
 um servidor MCP que consulta e monitora resoluções do CFM sobre IA em medicina,
 telemedicina e prontuário eletrônico. Pode ser usado pelo conector hospedado
-(`https://mcp.tailf42a96.ts.net/cfm/mcp`, sem garantia de disponibilidade) ou
-instalado localmente.
+(`https://debian-f.tailf42a96.ts.net/cfm/mcp`, sem garantia de disponibilidade) ou
+instalado localmente. Sem LLM: a busca é full-text sobre a base local.
 Um projeto [IA.med](https://iamed.cc), da mesma família do `anvisa-mcp` e do
 `protocolos-pcdt-mcp`.
 
@@ -54,6 +54,7 @@ cp -r dist ../medicina-ia.github.io/mcps/radar-cfm
 - Os valores nos exemplos de retorno são ilustrativos; os campos e as assinaturas
   são os do projeto na v0.1.0 (`ResolucaoCFM`, `RespostaConsulta`,
   `RespostaMonitoramento`). Toda resposta real traz a URL de origem.
+- Números publicados na página (2.457 resoluções, 53 MB, 93 testes) foram lidos em 12/10/2026.
 - Não é fonte oficial do CFM e não substitui a leitura da resolução original.
 
 ## Licença

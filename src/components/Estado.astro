@@ -1,0 +1,86 @@
+---
+const LIDO_EM = "12/10/2026";
+
+const numeros = [
+  { valor: "2.457", rotulo: "resoluções na base, todas com texto" },
+  { valor: "53 MB", rotulo: "tamanho da base" },
+  { valor: "93", rotulo: "testes automatizados" },
+  { valor: "2", rotulo: "tools expostas" },
+];
+
+const naoDiz = [
+  {
+    titulo: "A data de publicação é lida do texto, não de um campo",
+    texto:
+      "O portal não publica a data em metadado. A extração cobre 97% das normas de 2020 em diante, e sem_data_publicacao conta quantas ficaram de fora da janela: total zero com esse número alto quer dizer \"não sei\", não \"nada foi publicado\".",
+  },
+  {
+    titulo: "A revogação marcada no portal está errada na origem",
+    texto:
+      "O campo de ano de revogação do portal foi auditado página por página e não confere. O servidor usa os sinais que consegue ler do próprio texto e não garante a detecção, nem a vigência.",
+  },
+  {
+    titulo: "Suspensão só conta dentro de parênteses",
+    texto:
+      "É o que separa estado da norma de assunto da norma. Uma resolução que fala sobre suspensão não é uma resolução suspensa.",
+  },
+  {
+    titulo: "O portal cai, e a coleta cai junto",
+    texto:
+      "A fonte não tem API nem dado estruturado: raspar portal falha de vez em quando, e isso não vai mudar.",
+  },
+];
+---
+
+<section id="estado" class="border-b border-neutral-900">
+  <div class="mx-auto max-w-4xl px-6 py-20">
+    <p class="text-sm font-semibold uppercase tracking-wider text-emerald">O que ele não diz</p>
+    <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">Os números, e onde a resposta pode enganar</h2>
+    <p class="mt-3 max-w-2xl text-neutral-400">
+      Números lidos da base real e de uma execução em {LIDO_EM}; eles envelhecem.
+      O servidor não usa modelo de linguagem: responde só o que está na base.
+    </p>
+
+    <dl class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      {
+        numeros.map((n) => (
+          <div class="rounded-xl border border-neutral-800 bg-ink-800 p-4">
+            <dt class="font-mono text-2xl font-bold text-emerald">{n.valor}</dt>
+            <dd class="mt-1 text-xs leading-relaxed text-neutral-400">{n.rotulo}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="mt-2 text-xs text-neutral-500">Lido em {LIDO_EM}.</p>
+
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2">
+      {
+        naoDiz.map((i) => (
+          <li class="rounded-xl border border-neutral-800 bg-ink-800 p-5">
+            <h3 class="text-base font-semibold text-white">{i.titulo}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-neutral-400">{i.texto}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-8 rounded-xl border border-amber-500/25 bg-amber-500/[0.04] p-5">
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-amber-300">
+        A falha de 12/10, e por que ela não apareceu para quem consulta
+      </h3>
+      <p class="mt-3 text-sm leading-relaxed text-neutral-300">
+        A coleta das 02:37 morreu no meio, com erro de leitura de rede contra o portal.
+        A base servida não foi tocada: continuou com as 2.457 resoluções, todas com
+        texto, e o conector respondeu 200 durante e depois. O arquivo em construção ficou
+        em 20 MB e será apagado pela próxima coleta. É o que a publicação por troca
+        atômica existe para dar: antes dela, uma coleta interrompida deixava a base
+        servida pela metade.
+      </p>
+      <p class="mt-3 text-sm leading-relaxed text-neutral-300">
+        O portal voltou a responder em seguida, então foi falha passageira, e o
+        agendamento tenta de novo na madrugada seguinte. Isso descreve o que
+        aconteceu, não é promessa de disponibilidade.
+      </p>
+    </div>
+  </div>
+</section>
