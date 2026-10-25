@@ -6,7 +6,7 @@ export const IAMED_URL = "https://iamed.cc";
 export const LICENSE = "Apache-2.0";
 
 // Conector hospedado oficial (Tailscale Funnel, sem garantia de uptime).
-export const CONNECTOR_URL = "https://debian-f.tailf42a96.ts.net/cfm/mcp";
+export const CONNECTOR_URL = "https://mcp.iamed.cc/cfm/mcp";
 
 // Familia de MCPs open source da IA.med. SELF_SLUG marca o atual (some do rodape).
 export const SELF_SLUG = "radar-cfm";
